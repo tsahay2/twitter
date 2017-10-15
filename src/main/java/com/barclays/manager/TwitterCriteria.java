@@ -26,7 +26,7 @@ public class TwitterCriteria {
 	}
 
 	/**
-	 * @param username (whitout @) Username of a specific twitter account
+	 * @param username (whitout @) Username of a specific firebase account
 	 * 
 	 * @return Current {@link TwitterCriteria}
 	 */

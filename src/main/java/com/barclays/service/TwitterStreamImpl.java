@@ -1,8 +1,12 @@
-package com.barclays.main;
+package com.barclays.service;
 
+import com.tushar.firebase.FCMNotificationSender;
+import com.tushar.firebase.FireBaseDatabaseAdmin;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
+
+import java.io.IOException;
 
 /**
  * Created by TUSHAR on 24-04-2017.
@@ -16,7 +20,9 @@ public class TwitterStreamImpl {
     public static FilterQuery filtre;
     private Status status;
 
-    public Status getStatus(long id) {
+    public Status getStatus(long id) throws IOException {
+
+//        FireBaseDatabaseAdmin.initialize_firebase_db();
 
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setOAuthConsumerKey("sJUXr9KQ7tKV9sXMx2MIMcjF7")
@@ -80,6 +86,8 @@ public class TwitterStreamImpl {
         n double[][] locations = {{-74, 40}, {-73, 41}}; //those are the boundary from New York City
         filtre.locations(locations);
         twitterStream.filter(filtre);*/
+
+//        FCMNotificationSender.pushNotification("evsE7Bx08VI:APA91bFNRpeI9h05UI2Q9FRQJGCx-EQtoDxlPSP2pNpxGg9PwVmpVeHKPvWttEQU051L03xD7ApyQ4R38Kn-1jGmUOnti3mFT03XwL9f6A5b7Xb9Bg8_XyHl1GVqG5mH-CYmewzXP8EI");
     return status;
     }
 

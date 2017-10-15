@@ -1,11 +1,14 @@
-package com.barclays.main;
+package com.barclays.service;
 
 import com.barclays.manager.TwitterCriteria;
-import com.barclays.model.Tweet;
+import com.barclays.dto.Tweet;
 import com.barclays.manager.TweetManager;
+import com.tushar.firebase.FireBaseDatabaseAdmin;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,16 +23,36 @@ import java.util.regex.Pattern;
 
 @Component
 public class TwitterServiceImpl {
+
+    @Autowired
+    FireBaseDatabaseAdmin fireBaseDatabaseAdmin;
+
     private static final String USERNAME = "Username: ";
     private static final String RETWEETS = "Retweets: ";
     private static final String TEXT = "Text: ";
     private static final String MENTIONS = "Mentions: ";
     private static final String HASHTAGS = "Hashtags: ";
 
-    public List<Tweet> getTweetList(String username) throws MalformedURLException {
+    public List<Status> getTweets(String username) throws TwitterException {
+
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.setOAuthConsumerKey("sJUXr9KQ7tKV9sXMx2MIMcjF7")
+                .setOAuthConsumerSecret("vZneZFGLBritLIOpeC3kj78FExvupyRvcmNSHTn0QOHv62KJUc")
+                .setOAuthAccessToken("112106055-dw9Wfn8FHujP8ym5LDP8BK4AM2qnPlMiiwLXjYWb")
+                .setOAuthAccessTokenSecret("GRgnzNmyxG8iHoQdc8Np0vlzm10gxgK6EJyeC5HadqjaJ");
+        Twitter twitter = new TwitterFactory(configurationBuilder.build()).getInstance();
+        List<Status> tweets = twitter.getUserTimeline(username);
+        return tweets;
+    }
+
+
+    public List<Tweet> getTweetList(String username) throws IOException {
         /**
          * Reusable objects
          */
+
+        fireBaseDatabaseAdmin.initialize_firebase_db();
+
         TwitterCriteria criteria = null;
         List<Tweet> t = null;
 
@@ -60,16 +82,16 @@ public class TwitterServiceImpl {
                 .setUsername(username);
 
         t = TweetManager.getTweets(criteria);
-      /*  for (Tweet twitter : t
+      /*  for (Tweet firebase : t
                 )
 
         {
-//            String s[] = twitter.getText().split(".pdf");
+//            String s[] = firebase.getText().split(".pdf");
 //            String urlString = s[0] + ".pdf".trim();
 //            System.out.println("urlString : " + urlString);
 
-            String urlFinal = extractUrl(twitter.getText());
-            System.out.println("Actual text :" + twitter.getText());
+            String urlFinal = extractUrl(firebase.getText());
+            System.out.println("Actual text :" + firebase.getText());
             System.out.println("Extracted Url : " + urlFinal);
             if (null != urlFinal) {
                 URL url = new URL((urlFinal));
@@ -81,7 +103,7 @@ public class TwitterServiceImpl {
                     e.printStackTrace();
                 }
             }
-//            System.out.println(twitter.toString());
+//            System.out.println(firebase.toString());
 
 
         }*/

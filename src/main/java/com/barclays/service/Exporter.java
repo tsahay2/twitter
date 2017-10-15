@@ -1,4 +1,4 @@
-package com.barclays.main;
+package com.barclays.service;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import com.barclays.manager.TwitterCriteria;
-import com.barclays.model.Tweet;
+import com.barclays.dto.Tweet;
 import com.barclays.manager.TweetManager;
 
 public class Exporter {
@@ -21,7 +21,7 @@ public class Exporter {
 		
 		if (args.length == 1 && args[0].equals("-h")) {
 			System.out.println("\nTo use this jar, you can pass the folowing attributes:");
-			System.out.println("   username: Username of a specific twitter account (without @)");
+			System.out.println("   username: Username of a specific firebase account (without @)");
 			System.out.println("      since: The lower bound date (yyyy-mm-aa)");
 			System.out.println("      until: The upper bound date (yyyy-mm-aa)");
 			System.out.println("querysearch: A query text to be matched");

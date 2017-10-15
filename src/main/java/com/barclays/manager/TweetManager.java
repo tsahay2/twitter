@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.barclays.model.Tweet;
+import com.barclays.dto.Tweet;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -58,7 +58,7 @@ public class TweetManager {
 			appendQuery += " "+querySearch;
 		}
 		
-		String url = String.format("https://twitter.com/i/search/timeline?f=realtime&q=%s&src=typd&max_position=%s", URLEncoder.encode(appendQuery, "UTF-8"), scrollCursor);
+		String url = String.format("https://firebase.com/i/search/timeline?f=realtime&q=%s&src=typd&max_position=%s", URLEncoder.encode(appendQuery, "UTF-8"), scrollCursor);
 		
 		HttpGet httpGet = new HttpGet(url);
 		HttpEntity resp = defaultHttpClient.execute(httpGet).getEntity();
@@ -105,7 +105,7 @@ public class TweetManager {
 					
 					Tweet t = new Tweet();
 					t.setId(id);
-					t.setPermalink("https://twitter.com"+permalink);
+					t.setPermalink("https://firebase.com"+permalink);
 					t.setUsername(usernameTweet);
 					t.setText(txt);
 					t.setDate(date);

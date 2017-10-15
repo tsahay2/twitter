@@ -1,4 +1,4 @@
-package com.barclays.model;
+package com.barclays.dto;
 
 import java.util.Date;
 
